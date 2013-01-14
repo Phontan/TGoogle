@@ -105,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HelloWorldController.cs" />
+    <Compile Include="Models\Helper\JsonNetResult.cs" />
     <Compile Include="Controllers\TGoogleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -115,6 +116,8 @@
     <Compile Include="Models\DTO\ResponseData.cs" />
     <Compile Include="Models\DTO\ResponsePages.cs" />
     <Compile Include="Models\DTO\ResponseResult.cs" />
+    <Compile Include="Models\Exceptions\ModelException.cs" />
+    <Compile Include="Models\Helper\JsonNetSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

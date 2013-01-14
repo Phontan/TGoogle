@@ -2,8 +2,8 @@
 {
     public class GoogleResponse
     {
-        public ResponseData responseData { get; set; }
-        public ResponseCursor cursor { get; set; }
-        public int responseStatus { get; set; }
+        public ResponseData ResponseData { get; set; }
+        public ResponseCursor Cursor { get; set; }
+        public int ResponseStatus { get; set; }
     }
 }

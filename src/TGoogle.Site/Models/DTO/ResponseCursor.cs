@@ -2,7 +2,7 @@
 {
     public class ResponseCursor
     {
-        public string resultCount { get; set; }
-        public ResponsePages[] pages { get; set; }
+        public string ResultCount { get; set; }
+        public ResponsePages[] Pages { get; set; }
     }
 }

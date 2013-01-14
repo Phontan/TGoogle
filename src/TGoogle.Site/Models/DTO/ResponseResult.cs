@@ -3,12 +3,12 @@
     public class ResponseResult
     {
         public string GsearchResultClass { get; set; }
-        public string unescapedUrl { get; set; }
-        public string url { get; set; }
-        public string visibleUrl { get; set; }
-        public string cacheUrl { get; set; }
-        public string title { get; set; }
-        public string titleNoFormatting { get; set; }
-        public string content { get; set; }
+        public string UnescapedUrl { get; set; }
+        public string Url { get; set; }
+        public string VisibleUrl { get; set; }
+        public string CacheUrl { get; set; }
+        public string Title { get; set; }
+        public string TitleNoFormatting { get; set; }
+        public string Content { get; set; }
     }
 }

@@ -2,6 +2,6 @@
 {
     public class ResponseData
     {
-        public ResponseResult[] results { get; set; }
+        public ResponseResult[] Results { get; set; }
     }
 }
