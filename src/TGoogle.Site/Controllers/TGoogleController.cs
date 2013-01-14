@@ -2,10 +2,10 @@
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Razor.Generator;
 using TGoogle.Site.Models;
 using TGoogle.Site.Models.Exceptions;
 using TGoogle.Site.Models.Helper;
+using TGoogle.Site.Models.ReadDataModel;
 
 namespace TGoogle.Site.Controllers
 {
@@ -19,14 +19,14 @@ namespace TGoogle.Site.Controllers
             return View();
         }
 
-        public ActionResult Search(string keyWord)
+        public JsonNetResult Search(string keyWord)
         {
             var contentGetter = new ContentGetter();
             try
             {
-                var content = contentGetter.GetResult(keyWord);
-                var res = new JsonNetResult(content, JsonNetSettings.Default);
-                return res;
+                var content =  contentGetter.GetResult(keyWord);
+                var search = new JsonNetResult(content, JsonNetSettings.Default);
+                return search;
             }
             catch (ModelException exception)
             {

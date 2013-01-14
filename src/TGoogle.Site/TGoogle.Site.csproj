@@ -105,20 +105,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HelloWorldController.cs" />
+    <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Models\Helper\JsonNetResult.cs" />
     <Compile Include="Controllers\TGoogleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ContentGetter.cs" />
-    <Compile Include="Models\DTO\GoogleResponse.cs" />
-    <Compile Include="Models\DTO\ResponseCursor.cs" />
-    <Compile Include="Models\DTO\ResponseData.cs" />
-    <Compile Include="Models\DTO\ResponsePages.cs" />
-    <Compile Include="Models\DTO\ResponseResult.cs" />
+    <Compile Include="Models\ReadDataModel\GoogleResponse.cs" />
+    <Compile Include="Models\ReadDataModel\ResponseCursor.cs" />
+    <Compile Include="Models\ReadDataModel\ResponseData.cs" />
+    <Compile Include="Models\ReadDataModel\ResponsePages.cs" />
+    <Compile Include="Models\ReadDataModel\ResponseResult.cs" />
     <Compile Include="Models\Exceptions\ModelException.cs" />
     <Compile Include="Models\Helper\JsonNetSettings.cs" />
+    <Compile Include="Models\ViewDataModel\SearchItem.cs" />
+    <Compile Include="Models\ViewDataModel\SearchViewResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Scripts\jsrender.js" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -136,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\Statistics\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -145,6 +150,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\TGoogle\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Statistic\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
