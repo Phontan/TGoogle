@@ -1,0 +1,39 @@
+﻿@model dynamic
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Statistic</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        $(function() {
+            setTimeout("getStatistics()", 1000);
+        });
+
+        function getStatistics() {
+            $.ajax({
+                url: "/Statistics/Changes/",
+                    type: 'GET',
+                    success: updateResult,
+                    error: function(jqXHR, status, err) {
+                        alert('error: ', jqXHR.responseText);
+                    }
+                    
+            });
+            setTimeout("getStatistics()", 1000);
+        }
+
+        function updateResult(newResult) {
+            for (var key in newResult) {
+                $('#resultTable').after('<tr><td>'+key+'</td><td>   '+newResult[key]+'</td></tr>');
+            }
+        }
+    </script>
+    <div id="content">
+        <table id="resultTable"></table>
+    </div>
+</body>
+</html>

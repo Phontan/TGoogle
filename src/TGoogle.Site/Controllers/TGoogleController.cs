@@ -5,7 +5,7 @@ using System.Web.Mvc;
 using TGoogle.Site.Models;
 using TGoogle.Site.Models.Exceptions;
 using TGoogle.Site.Models.Helper;
-using TGoogle.Site.Models.ReadDataModel;
+using TGoogle.Site.Models.Statistics;
 
 namespace TGoogle.Site.Controllers
 {
@@ -24,6 +24,7 @@ namespace TGoogle.Site.Controllers
             var contentGetter = new ContentGetter();
             try
             {
+                StatisticsHandler.HandleExpresion(keyWord);
                 var content =  contentGetter.GetResult(keyWord);
                 var search = new JsonNetResult(content, JsonNetSettings.Default);
                 return search;

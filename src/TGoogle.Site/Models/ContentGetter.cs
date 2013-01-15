@@ -43,7 +43,7 @@ namespace TGoogle.Site.Models
             if (jsonResult.ResponseStatus != 200)
             {
                 jsonResult.ResponseData = ResponseData.Generate();
-                //throw new ModelException(string.Format("Unexpected response from google server. Status code is {0}", jsonResult.ResponseStatus));
+                //throw new ModelException(string.Format("Unexpected response from Google server. Status code is {0}", jsonResult.ResponseStatus));
             }
 
             return new SearchViewResult(jsonResult.ResponseData);
