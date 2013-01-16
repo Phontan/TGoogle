@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace TGoogle.Site.Models.Statistics
@@ -7,27 +8,27 @@ namespace TGoogle.Site.Models.Statistics
     {
         private static readonly ConcurrentDictionary<string, int> KeywordsDictionary = new ConcurrentDictionary<string, int>();
 
-        public static ConcurrentDictionary<string, int> GetCurrentState(SortOption sortOption, int pageSize)
+        public static KeyValuePair<string, int>[] GetCurrentState(SortOption sortOption, int pageSize)
         {
             switch (sortOption)
             {
                 case SortOption.None:
-                    return new ConcurrentDictionary<string, int>(KeywordsDictionary.Take(pageSize));
+                    return KeywordsDictionary.Take(pageSize).ToArray();
                 case SortOption.Keyword:
-                    return new ConcurrentDictionary<string, int>(KeywordsDictionary.OrderBy(pair => pair.Key).Take(pageSize));
+                    return KeywordsDictionary.OrderBy(pair => pair.Key).Take(pageSize).ToArray();
                 case SortOption.KeywordDecrease:
-                    return new ConcurrentDictionary<string, int>(KeywordsDictionary.OrderByDescending(pair => pair.Key).Take(pageSize));
+                    return KeywordsDictionary.OrderByDescending(pair => pair.Key).Take(pageSize).ToArray();
                 case SortOption.KeywordCount:
-                    return new ConcurrentDictionary<string, int>(KeywordsDictionary.OrderBy(pair => pair.Value).Take(pageSize));
+                    return KeywordsDictionary.OrderBy(pair => pair.Value).Take(pageSize).ToArray();
                 case SortOption.KeywordCountDecrease:
-                    return new ConcurrentDictionary<string, int>(KeywordsDictionary.OrderByDescending(pair => pair.Value));
+                    return KeywordsDictionary.OrderByDescending(pair => pair.Value).ToArray();
             }
-            return KeywordsDictionary;
+            return new KeyValuePair<string, int>[0];
         }
 
         public static void HandleExpresion(string keyWord)
         {
-            KeywordsDictionary.AddOrUpdate(keyWord, s => 0, (s, i) => ++i);
+            KeywordsDictionary.AddOrUpdate(keyWord, s => 1, (s, i) => ++i);
         }
     }
 }
