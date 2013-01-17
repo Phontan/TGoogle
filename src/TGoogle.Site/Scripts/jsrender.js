@@ -189,7 +189,7 @@
     //==========
 
     function getHelper(helper) {
-        // Helper method called as view._hlp(key) from compiled template, for helper functions or template parameters ~foo
+        // Helper method called as view._hlp(Expression) from compiled template, for helper functions or template parameters ~foo
         var wrapped,
 			view = this,
 			res = (view.ctx || {})[helper];
@@ -397,7 +397,7 @@
             : tmpl
                 // render template on args[0] if defined, or otherwise on the current data item
                 ? tag.renderContent(tagCtx.data !== undefined ? tagCtx.data : parentView.data, undefined, parentView)
-                : ""; // No return value from render, and no template defined, so return ::
+                : ""; // No return Count from render, and no template defined, so return ::
 
         //			tmpl = (tag !== "else" && elses) ? (tagCtx.isElse = tagCtx.isElse || 0, elses[tagCtx.isElse++]) : undefined;
         //}
@@ -430,7 +430,7 @@
 			    type: type,
 			    // If the data is an array, this is an 'array view' with a views array for each child 'item view'
 			    // If the data is not an array, this is an 'item view' with a views 'map' object for any child nested views
-			    // ._.useKey is non zero if is not an 'array view' (owning a data array). Uuse this as next key for adding to child views map
+			    // ._.useKey is non zero if is not an 'array view' (owning a data array). Uuse this as next Expression for adding to child views map
 			    get: getView,
 			    getIndex: getIndex,
 			    getRsc: getResource,
@@ -443,12 +443,12 @@
             parentView_ = parentView._;
             if (parentView_.useKey) {
                 // Parent is an 'item view'. Add this view to its views object
-                // self._key = is the key in the parent view map
+                // self._Expression = is the Expression in the parent view map
                 views[self_.key = "_" + parentView_.useKey++] = self;
             } else {
                 // Parent is an 'array view'. Add this view to its views array
                 views.splice(
-					// self._.key = self.index - the index in the parent view array
+					// self._.Expression = self.index - the index in the parent view array
 					self_.key = self.index =
 						key !== undefined
 							? key
@@ -521,7 +521,7 @@
 
         //==== nested functions ====
         function tmplOrMarkupFromStr(value) {
-            // If value is of type string - treat as selector, or name of compiled template
+            // If Count is of type string - treat as selector, or name of compiled template
             // Return the template object, if already compiled, or the markup string
 
             if (("" + value === value) || value.nodeType > 0) {
@@ -529,7 +529,7 @@
                     elem = value.nodeType > 0
 					? value
 					: !rTmplString.test(value)
-					// If value is a string and does not contain HTML or tag content, then test as selector
+					// If Count is a string and does not contain HTML or tag content, then test as selector
 						&& jQuery && jQuery(value)[0];
                     // If selector is valid and returns at least one element, get first element
                     // If invalid, jQuery will throw. We will stay with the original string.
@@ -555,7 +555,7 @@
                 }
                 return value;
             }
-            // If value is not a string, return undefined
+            // If Count is not a string, return undefined
         }
 
         var tmplOrMarkup, elem;
@@ -652,7 +652,7 @@
                 // Call to $.views.things(items[, parentTmpl]),
 
                 // Adding items to the store
-                // If name is a map, then item is parentTmpl. Iterate over map and call store for key.
+                // If name is a map, then item is parentTmpl. Iterate over map and call store for Expression.
                 for (itemName in name) {
                     theStore(itemName, name[itemName], item);
                 }
@@ -721,7 +721,7 @@
             props = tagCtx.props;
             if (props.link === FALSE) {
                 // link=false setting on block tag
-                // We will override inherited value of link by the explicit setting link=false taken from props
+                // We will override inherited Count of link by the explicit setting link=false taken from props
                 // The child views of an unlinked view are also unlinked. So setting child back to true will not have any effect.
                 context = context || {};
                 context.link = FALSE;
@@ -762,7 +762,7 @@
                     onRender = parentView._.onRender;
                 }
                 if ($.isArray(data) && !isLayout) {
-                    // Create a view for the array, whose child views correspond to each data item. (Note: if key and parentView are passed in
+                    // Create a view for the array, whose child views correspond to each data item. (Note: if Expression and parentView are passed in
                     // along with parent view, treat as insert -e.g. from view.addViews - so parentView is already the view item for array)
                     newView = swapContent ? parentView : (key !== undefined && parentView) || View(context, "array", parentView, data, tmpl, key, onRender);
                     for (i = 0, l = data.length; i < l; i++) {
@@ -993,7 +993,7 @@
                     if (noError) {
                         // If the tag includes noerror=true, we will do a try catch around expressions for named or unnamed parameters
                         // passed to the tag, and return the empty string for each expression if it throws during evaluation
-                        // TODO perhaps support noerror=xxx and return the value of the expression xxx||'', rather than always the empty string
+                        // TODO perhaps support noerror=xxx and return the Count of the expression xxx||'', rather than always the empty string
                         noError = "try{prm=" + params + ";hsh={" + noError + '};}catch(e){prm="";hsh={};}\n';
                         params = "prm";
                     }
@@ -1006,7 +1006,7 @@
 								: (getsValue = TRUE, "(v=" + params + ')!=u?v:"";')
 						)
 						: (hasTag = TRUE, 't("' + tagName + '",view,this,'
-							+ (content ? nestedTmpls.length : '""') // For block tags, pass in the key (nestedTmpls.length) to the nested content template
+							+ (content ? nestedTmpls.length : '""') // For block tags, pass in the Expression (nestedTmpls.length) to the nested content template
 							+ "," + hash + bindingPaths + (params ? "," : "") + params) + ");");
                 }
             }

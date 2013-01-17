@@ -1,65 +1,58 @@
-﻿<!DOCTYPE html>
+﻿@{
+    ViewBag.Title = "TGoogle";
+}
 
-<html>
-<head>
-    <title>title</title>
-    
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script type="text/javascript" src="/Scripts/jsrender.js"></script>
+<div class="container">
+    <form id="search-form">
+        <input type="text" id="key-word" value="sometext" />
+        <input type="submit" value="Search" />
+    </form>
 
-</head>
-<body>
-    <script type="text/javascript">
-        $(function () {
-            $("#search-form").submit(function (ev) {
-                ev.preventDefault();
+    <div>
+        <ol id="resultList"></ol>
+    </div>
+</div>
 
-                var keyWord = $("#keyWord").val();
+<script id="search-template" type="text/x-jsrender ">
+    <li>
+        <div>
+            <h3><a href="{{:url}}">{{:title}}</a></h3>
+            <div>
+                {{:url}}
+                <br/>
+                {{:content}}
+            </div>
+        </div>
+    </li>
+</script>
 
-                if (!keyWord)
-                    return false;
 
-                $.ajax({
-                    url: "/TGoogle/Search/",
-                    type: 'GET',
-                    data: { keyWord: keyWord },
-                    success: showResult,
-                    error: function (jqXHR, status, err) {
-                        alert('error: ', jqXHR.responseText);
-                    }
-                });
+<script type="text/javascript">
+    $(function () {
+        $("#search-form").submit(function (ev) {
+            ev.preventDefault();
 
+            var keyWord = $("#key-word").val();
+
+            if (!keyWord)
                 return false;
+
+            $.ajax({
+                url: "/TGoogle/Search/",
+                type: 'GET',
+                data: { keyWord: keyWord },
+                success: showResult,
+                error: function (jqXHR, status, err) {
+                    //alert('error: ', jqXHR.responseText);
+                }
             });
 
-            function showResult(data) {
-                var htmlString = $("#search-template").render(data.results);
-                $("#resultList").html(htmlString);
-            }
-        })
-    </script>
-    <div class="container">
-        <form id="search-form">
-            <input type="text" id="keyWord" value="sometext" />
-            <input type="submit" value="Search" />
-        </form>
+            return false;
+        });
 
-        <div>
-            <ol id="resultList"></ol>
-        </div>
-    </div>
-    
-    <script id="search-template" type="text/x-jsrender ">
-        <li>
-            <div>
-                <h3><a href="{{:url}}">{{:title}}</a></h3>
-                <div>
-                    {{:url}}
-                    <br/>
-                    {{:content}}
-                </div>
-            </div>
-        </li>
-    </script>
-</body>
-</html>
+        function showResult(data) {
+            var htmlString = $("#search-template").render(data.results);
+            $("#resultList").html(htmlString);
+        }
+    })
+</script>

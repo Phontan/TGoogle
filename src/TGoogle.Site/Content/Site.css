@@ -1,0 +1,52 @@
+﻿#stats-table {
+    width: 500px;
+    border: 1px solid rgb(136, 228, 228);
+    border-collapse: collapse;
+    text-align: center;
+    background-color: rgb(226, 249, 249)
+}
+
+body {
+    background: azure;
+}
+
+#paging {
+    padding-left: 170px;
+}
+
+#stats-table td {
+    border: 1px solid rgb(179, 248, 248);
+}
+
+#page-number {
+    width: 30px;
+    text-align: center;
+}
+
+button {
+    background-color: darkseagreen;
+}
+
+.number-header {
+    width: 40px;
+}
+
+.index-header {
+    width: 20px;
+}
+
+.index-column {
+    background-color: rgb(136, 228, 228);
+}
+
+.count-column {
+    background-color: rgb(174, 244, 244);
+}
+
+.expression-column {
+    text-align: left;
+}
+
+ table thead {
+     background-color: rgb(136, 228, 228);
+ }

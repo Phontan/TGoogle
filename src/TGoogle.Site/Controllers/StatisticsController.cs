@@ -14,9 +14,9 @@ namespace TGoogle.Site.Controllers
             return View();
         }
 
-        public JsonNetResult Changes(SortOption sortOption = SortOption.None, int pageSize = 10)
+        public JsonNetResult Changes(SortOption sortOption = 0x0, int pageNumber = 0, int pageSize = 10)
         {
-            var search = new JsonNetResult(StatisticsHandler.GetCurrentState(sortOption, pageSize), JsonNetSettings.Default);
+            var search = new JsonNetResult(StatisticsHandler.GetCurrentState(sortOption, pageNumber, pageSize), JsonNetSettings.Default);
             return search;
         }
 

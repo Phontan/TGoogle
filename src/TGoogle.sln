@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGoogle.Site", "TGoogle.Site\TGoogle.Site.csproj", "{44C2EAF4-A50C-4735-88C4-5752AB3CD4DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerLoad", "ServerLoad\ServerLoad.csproj", "{FC6BFA81-7940-4E77-A4C3-751E75E3C902}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomExpressionsGenerator", "RandomExpressionsGenerator\RandomExpressionsGenerator.csproj", "{9D8F27C9-2ECF-46DA-8FA7-1EDB2CE29463}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +17,14 @@ Global
 		{44C2EAF4-A50C-4735-88C4-5752AB3CD4DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44C2EAF4-A50C-4735-88C4-5752AB3CD4DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44C2EAF4-A50C-4735-88C4-5752AB3CD4DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC6BFA81-7940-4E77-A4C3-751E75E3C902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC6BFA81-7940-4E77-A4C3-751E75E3C902}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC6BFA81-7940-4E77-A4C3-751E75E3C902}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC6BFA81-7940-4E77-A4C3-751E75E3C902}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D8F27C9-2ECF-46DA-8FA7-1EDB2CE29463}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D8F27C9-2ECF-46DA-8FA7-1EDB2CE29463}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D8F27C9-2ECF-46DA-8FA7-1EDB2CE29463}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D8F27C9-2ECF-46DA-8FA7-1EDB2CE29463}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

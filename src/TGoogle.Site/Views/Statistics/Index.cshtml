@@ -1,39 +1,108 @@
-﻿@model dynamic
+﻿@{
+    ViewBag.Title = "Statistics";
+}
 
-<!DOCTYPE html>
+<div id="container">
+    <table id="stats-table">
+        <thead>
+            <tr>
+                <th class="index-header">№</th>
+                <th id="expression-header"><a href="#">Expression</a></th>
+                <th id="count-header"><a href="#">Count</a></th>
+            </tr>
+        </thead>
+        <tbody id="stats-result"></tbody>
+    </table>
+    <div id="paging">
+        <button id="move-left"> < </button>
+        <input type="text" id="page-number" value="1" readonly="readonly"/>
+        <button id="move-right"> > </button>
+        <input id="real-time-update" type="checkbox" value="Read Time Update" checked="checked"/>
+    </div>
+</div>
+<script id="stats-template" type="text/x-jsrender ">
+        <tr>
+            <td class="index-column">  {{:#index+1}}  </td>
+            <td class="expression-column">  {{:expression}}  </td>
+            <td class="count-column">  {{:count}}  </td>
+        </tr>
+</script>
 
-<html>
-<head>
-    <title>Statistic</title>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-</head>
-<body>
-    <script type="text/javascript">
-        $(function() {
-            setTimeout("getStatistics()", 1000);
+
+<script type="text/javascript">
+    (function () {
+        var sortOption = 0;
+        var pageSize = 10;
+        var pageNumber = 0;
+        var realTimeUpdate = true;
+
+        $(function () {
+            setTimeout(getStats, 1000);
         });
 
-        function getStatistics() {
+        function getStats() {
             $.ajax({
                 url: "/Statistics/Changes/",
-                    type: 'GET',
-                    success: updateResult,
-                    error: function(jqXHR, status, err) {
-                        alert('error: ', jqXHR.responseText);
-                    }
-                    
+                type: 'GET',
+                data: { 'pageNumber': pageNumber, 'pageSize': pageSize, 'sortOption': sortOption },
+                success: successGetStats,
+                error: function (jqXHR, status, err) {
+                    //alert('error: ', jqXHR.responseText);
+                }
             });
-            setTimeout("getStatistics()", 1000);
+            if (realTimeUpdate)
+                setTimeout(getStats, 1000);
         }
 
-        function updateResult(newResult) {
-            for (var key in newResult) {
-                $('#resultTable').after('<tr><td>'+key+'</td><td>   '+newResult[key]+'</td></tr>');
-            }
+        function successGetStats(data) {
+            if ($("#real-time-update").attr("checked") != "checked")
+                return;
+            var tableContent = $("#stats-template").render(data);
+            $("#stats-result").html(tableContent);
+            $("#page-number").val(pageNumber+1);
+            if (data.length < pageSize)
+                $("#move-right").attr("disabled", "disabled");
+            else
+                $("#move-right").removeAttr("disabled");
+
+            if (pageNumber == 0)
+                $("#move-left").attr("disabled", "disabled");
+            else
+                $("#move-left").removeAttr("disabled", "disabled");
+
         }
-    </script>
-    <div id="content">
-        <table id="resultTable"></table>
-    </div>
-</body>
-</html>
+        
+        $("#real-time-update").change(function () {
+            if ($(this).attr("checked")) {
+                realTimeUpdate = true;
+                setTimeout(getStats, 1000);
+                return;
+            }
+            realTimeUpdate = false;
+        });
+
+        $("#move-left").click(function() {
+            pageNumber--;
+        });
+        $("#move-right").click(function () {
+            pageNumber++;
+        });
+        
+        $('#expression-header').click(function () {
+            if (sortOption == 1)
+                sortOption = 2;
+            else
+                sortOption = 1;
+
+        });
+        $('#count-header').click(function () {
+            if (sortOption == 3)
+                sortOption = 4;
+            else
+                sortOption = 3;
+
+        });
+
+    })();
+    
+</script>

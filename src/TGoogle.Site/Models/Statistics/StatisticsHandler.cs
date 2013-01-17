@@ -1,5 +1,5 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Linq;
 
 namespace TGoogle.Site.Models.Statistics
@@ -8,27 +8,51 @@ namespace TGoogle.Site.Models.Statistics
     {
         private static readonly ConcurrentDictionary<string, int> KeywordsDictionary = new ConcurrentDictionary<string, int>();
 
-        public static KeyValuePair<string, int>[] GetCurrentState(SortOption sortOption, int pageSize)
+        public static void HandleExpresion(string keyWord)
         {
+            try
+            {
+                KeywordsDictionary.AddOrUpdate(keyWord, s => 1, (s, i) => ++i);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public static StatData[] GetCurrentState(SortOption sortOption, int pageNumber, int pageSize)
+        {
+            var startPosition = pageSize*pageNumber;
             switch (sortOption)
             {
                 case SortOption.None:
-                    return KeywordsDictionary.Take(pageSize).ToArray();
+                    return KeywordsDictionary.Skip(startPosition).Take(pageSize).Select(kvp => new StatData(kvp.Key, kvp.Value)).ToArray();
                 case SortOption.Keyword:
-                    return KeywordsDictionary.OrderBy(pair => pair.Key).Take(pageSize).ToArray();
+                    return KeywordsDictionary.OrderBy(pair => pair.Key).Skip(startPosition).Take(pageSize).Select(kvp => new StatData(kvp.Key, kvp.Value)).ToArray();
                 case SortOption.KeywordDecrease:
-                    return KeywordsDictionary.OrderByDescending(pair => pair.Key).Take(pageSize).ToArray();
+                    return KeywordsDictionary.OrderByDescending(pair => pair.Key).Skip(startPosition).Take(pageSize).Select(kvp => new StatData(kvp.Key, kvp.Value)).ToArray();
                 case SortOption.KeywordCount:
-                    return KeywordsDictionary.OrderBy(pair => pair.Value).Take(pageSize).ToArray();
+                    return KeywordsDictionary.OrderBy(pair => pair.Value).Skip(startPosition).Take(pageSize).Select(kvp => new StatData(kvp.Key, kvp.Value)).ToArray();
                 case SortOption.KeywordCountDecrease:
-                    return KeywordsDictionary.OrderByDescending(pair => pair.Value).ToArray();
+                    return KeywordsDictionary.OrderByDescending(pair => pair.Value).Skip(startPosition).Take(pageSize).Select(kvp => new StatData(kvp.Key, kvp.Value)).ToArray();
             }
-            return new KeyValuePair<string, int>[0];
+            return new StatData[0];
+        }
+    }
+
+    public class StatData
+    {
+        public string Expression { get; set; }
+        public int Count { get; set; }
+
+        public StatData()
+        {
         }
 
-        public static void HandleExpresion(string keyWord)
+        public StatData(string key, int value)
         {
-            KeywordsDictionary.AddOrUpdate(keyWord, s => 1, (s, i) => ++i);
+            Expression = key;
+            Count = value;
         }
     }
 }
