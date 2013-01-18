@@ -2,6 +2,7 @@
 using System.Net;
 using System.Text;
 using System.Web;
+using System.Web.Caching;
 using Newtonsoft.Json;
 using TGoogle.Site.Models.Exceptions;
 using TGoogle.Site.Models.Helper;
@@ -43,7 +44,6 @@ namespace TGoogle.Site.Models
             if (jsonResult.ResponseStatus != 200)
             {
                 jsonResult.ResponseData = ResponseData.Generate();
-                //throw new ModelException(string.Format("Unexpected response from Google server. Status code is {0}", jsonResult.ResponseStatus));
             }
 
             return new SearchViewResult(jsonResult.ResponseData);

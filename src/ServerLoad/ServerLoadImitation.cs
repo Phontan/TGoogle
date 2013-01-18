@@ -12,21 +12,20 @@ namespace ServerLoad
     internal class ServerLoadImitation
     {
         private readonly string _filePath;
-        private readonly int _maxRequestPerSecond;
         private readonly ConcurrentBag<KeyValuePair<string, int>> _links;
-        private readonly Task _loadTask;
+        private CancellationTokenSource _cancellationToken;
         private const string BaseUrl = "http://localhost/tgoogle/Search?keyWord={0}";
 
-        public ServerLoadImitation(string filePath, int maxRequestPerSecond = 10000)
+        public ServerLoadImitation(string filePath)
         {
             _filePath = filePath;
-            _maxRequestPerSecond = maxRequestPerSecond;
             _links = new ConcurrentBag<KeyValuePair<string, int>>();
-            _loadTask = new Task(HandleLinks);
         }
 
-        private void HandleLinks()
+        private void HandleLinks(object arg)
         {
+            var maxRequestsPerSecond = (int) arg;
+            var token = _cancellationToken.Token;
             string url;
             HttpWebRequest sender;
             while (true)
@@ -34,20 +33,23 @@ namespace ServerLoad
                 foreach (var linkStruct in _links)
                 {
                     url = string.Format(BaseUrl, HttpUtility.UrlEncode(linkStruct.Key));
-                    
                     for (var i = 0; i < linkStruct.Value; i++)
                     {
+                        if (token.IsCancellationRequested)
+                            return;
                         sender = (HttpWebRequest)WebRequest.Create(url);
                         sender.GetResponseAsync();
+                        Thread.Sleep(1000/maxRequestsPerSecond);
                     }
-                    Console.Write(".");
                 }
             }
         }
 
-        public void Start()
+        public void Start(int maxRequestsPerSecond)
         {
-            _loadTask.Start();
+            _cancellationToken = new CancellationTokenSource();
+            var loadTask = new Task(HandleLinks, maxRequestsPerSecond, _cancellationToken.Token);
+            loadTask.Start();
             using (var sr = new StreamReader(_filePath))
             {
                 while (!sr.EndOfStream)
@@ -70,6 +72,7 @@ namespace ServerLoad
 
         public void Stop()
         {
+            _cancellationToken.Cancel();
         }
     }
 }
